@@ -1,0 +1,19 @@
+<div class="app-container">
+  <mat-toolbar class="toolbar" style="z-index:9999">
+    <a mat-button routerLink="/">Personal Tutor</a>
+
+    <span class="example-fill-remaining-space"></span>
+
+    <div style="margin-right: 0.5rem">
+      <a mat-button routerLink="/tree"
+      >Tree view</a
+      >
+    </div>
+
+    <a mat-button *ngIf="!loggedIn()" routerLink="/login">Log In</a>
+    <a mat-button *ngIf="!loggedIn()" routerLink="/register">Register</a>
+
+    <a mat-button *ngIf="loggedIn()" (click)="logout()">Log Out</a>
+  </mat-toolbar>
+
+<router-outlet></router-outlet>
