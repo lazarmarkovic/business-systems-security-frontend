@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CertRequestImpl} from '../../models/Impl/cert-request-impl';
 
 @Component({
   selector: 'app-certificate-tree',
@@ -9,36 +10,26 @@ export class CertificateTreeComponent implements OnInit {
   private nodes: any;
   private options: any;
 
+  private data = new CertRequestImpl();
+  public showSpinner: boolean;
+
+  /* subject data */
+  private countryNameC: string;
+  private organizationO: string;
+  private organizationalUnitOU: string;
+  private commonNameCN: string;
+
   constructor() {
     this.nodes = null;
   }
 
   ngOnInit() {
-    this.nodes = [
-      {
-        id: 1,
-        name: 'root1',
-        children: [
-          { id: 2, name: 'child1' },
-          { id: 3, name: 'child2' }
-        ]
-      },
-      {
-        id: 4,
-        name: 'root2',
-        children: [
-          { id: 5, name: 'child2.1' },
-          {
-            id: 6,
-            name: 'child2.2',
-            children: [
-              { id: 7, name: 'subsub' }
-            ]
-          }
-        ]
-      }
-    ];
+    this.nodes = [];
     this.options = {};
+  }
+
+  create() {
+
   }
 
 
