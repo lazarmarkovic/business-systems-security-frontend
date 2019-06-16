@@ -16,8 +16,10 @@ import { MaterialModule } from './app/MaterialModule';
 import { TreeModule } from 'angular-tree-component';
 import { ToastrModule } from 'ngx-toastr';
 import {CanActivateAdminServiceGuard} from './app/security/can-activate-admin.guard';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptorService} from './app/security/token-interceptor.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CanActivateAuthGuard} from './app/security/can-activate-auth.guard';
 
 @NgModule({
   declarations: [
@@ -28,10 +30,13 @@ import {TokenInterceptorService} from './app/security/token-interceptor.service'
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule,
     TreeModule.forRoot(),
     ToastrModule.forRoot(),
     MaterialModule,
+    FormsModule,
 
   ],
   providers: [
@@ -39,6 +44,7 @@ import {TokenInterceptorService} from './app/security/token-interceptor.service'
 
 
     // JWT things
+    CanActivateAuthGuard,
     CanActivateAdminServiceGuard,
     {
       provide: HTTP_INTERCEPTORS,

@@ -4,11 +4,16 @@ import {CertificateTreeComponent} from './app/components/certificate-tree/certif
 import {NotFoundPageComponent} from './app/components/not-found-page/not-found-page.component';
 import {CanActivateAdminServiceGuard} from './app/security/can-activate-admin.guard';
 import {LoginComponent} from './app/components/login/login.component';
+import {CanActivateAuthGuard} from './app/security/can-activate-auth.guard';
 
 const routes: Routes = [
   { path: '',
+    redirectTo: 'tree',
+    pathMatch: 'full'
+  },
+  { path: 'tree',
     component: CertificateTreeComponent,
-    canActivate: [CanActivateAdminServiceGuard]
+    canActivate: [CanActivateAuthGuard, CanActivateAdminServiceGuard]
   },
   {
     path: 'login',
