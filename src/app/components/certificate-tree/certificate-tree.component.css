@@ -1,7 +1,19 @@
+.tree-card {
+  width: 40em;
+}
+
 .create-cert-card {
-  width: 23em;
+  width: 40em;
 }
 
 .create-full-width {
+  width: 100%;
+}
+
+
+.card-container {
+  /* needed styles below */
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
