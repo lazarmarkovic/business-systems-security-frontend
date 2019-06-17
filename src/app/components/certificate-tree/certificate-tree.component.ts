@@ -3,6 +3,7 @@ import {CertRequestImpl} from '../../models/Impl/cert-request-impl';
 import {CertificateService} from '../../services/certificate.service';
 import {TreeItem} from '../../models/treeItem';
 import {ToastrService} from 'ngx-toastr';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-certificate-tree',
@@ -49,7 +50,6 @@ export class CertificateTreeComponent implements OnInit {
       .subscribe(
         (forest: TreeItem[]) => {
           this.nodes = forest;
-          this.toastrService.success('Forest is loaded.');
         },
         (err) => {
           this.toastrService.error(err.error.apierror.message);
@@ -58,6 +58,11 @@ export class CertificateTreeComponent implements OnInit {
   }
 
   create() {
+    if (this.data.issuer === undefined && this.data.certificateType !== 'ROOT') {
+      this.toastrService.error('Only ROOT cert can be created with no issuer data.');
+      return;
+    }
+
     this.showSpinner = true;
     this.data.subject =
         'C=' + this.countryNameC + ', ' +
@@ -80,6 +85,17 @@ export class CertificateTreeComponent implements OnInit {
       );
   }
 
+  startDownload() {
+    if (this.selectedNodeId === undefined) {
+      this.toastrService.error('Please select cert to download.');
+      return;
+    }
 
+    this.certService
+      .downloadZip(this.selectedNodeId)
+      .then(
+        blob => { saveAs(blob, 'data.zip' );
+    });
+  }
 
 }

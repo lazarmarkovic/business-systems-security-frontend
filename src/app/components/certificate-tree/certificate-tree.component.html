@@ -1,63 +1,65 @@
+<button mat-raised-button (click)="startDownload()" color="primary">Download data of selected certificate</button>
 <div class="card-container">
-<mat-card class="tree-card">
-  <mat-card-header>
-    <mat-card-title>Certificate Tree View</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <tree-root class="tree" [nodes]="nodes" [options]="options" (nodeActivate)="onTreeNodeSelect($event)"></tree-root>
-  </mat-card-content>
-</mat-card>
+  <mat-card class="tree-card">
+    <mat-card-header>
+      <mat-card-title>Certificate Tree View</mat-card-title>
 
-<mat-card class="create-cert-card">
-  <mat-card-header>
-    <mat-card-title>Create Certificate</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form class="login-form">
-      <table class="create-full-width">
-        <tr>
-          <td>
-            <mat-form-field class="create-full-width">
-              <input matInput placeholder="Issuer" name="issuer" [(ngModel)]="data.issuer" disabled required>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="create-full-width">
-            <input matInput placeholder="Country Name [C]" [(ngModel)]="countryNameC" name="countryNameC" required>
-          </mat-form-field></td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="create-full-width">
-            <input matInput placeholder="Organization [O]" [(ngModel)]="organizationO" name="organizationO" required>
-          </mat-form-field></td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="create-full-width">
-            <input matInput placeholder="Organizational Unit [OU]" [(ngModel)]="organizationalUnitOU" name="organizationalUnitOU" required>
-          </mat-form-field></td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="create-full-width">
-            <input matInput placeholder="Common NameCN [CN]" [(ngModel)]="commonNameCN" name="commonNameCN" required>
-          </mat-form-field></td>
-        </tr>
-        <tr>
-          <td><mat-form-field class="create-full-width">
-            <mat-label>Select difficulty level</mat-label>
-            <mat-select [(value)]="data.certificateType" required>
-              <mat-option value="ROOT">Root</mat-option>
-              <mat-option value="INTERMEDIATE">Intermediate</mat-option>
-              <mat-option value="USER">User</mat-option>
-            </mat-select>
-          </mat-form-field></td>
-        </tr>
-      </table>
-    </form>
-    <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="create()" color="primary">Create</button>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-header>
+    <mat-card-content>
+      <tree-root class="tree" [nodes]="nodes" [options]="options" (nodeActivate)="onTreeNodeSelect($event)"></tree-root>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="create-cert-card">
+    <mat-card-header>
+      <mat-card-title>Create Certificate</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="login-form">
+        <table class="create-full-width">
+          <tr>
+            <td>
+              <mat-form-field class="create-full-width">
+                <input matInput placeholder="Issuer" name="issuer" [(ngModel)]="data.issuer" disabled required>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="create-full-width">
+              <input matInput placeholder="Country Name [C]" [(ngModel)]="countryNameC" name="countryNameC" required>
+            </mat-form-field></td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="create-full-width">
+              <input matInput placeholder="Organization [O]" [(ngModel)]="organizationO" name="organizationO" required>
+            </mat-form-field></td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="create-full-width">
+              <input matInput placeholder="Organizational Unit [OU]" [(ngModel)]="organizationalUnitOU" name="organizationalUnitOU" required>
+            </mat-form-field></td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="create-full-width">
+              <input matInput placeholder="Common NameCN [CN]" [(ngModel)]="commonNameCN" name="commonNameCN" required>
+            </mat-form-field></td>
+          </tr>
+          <tr>
+            <td><mat-form-field class="create-full-width">
+              <mat-label>Select difficulty level</mat-label>
+              <mat-select [(value)]="data.certificateType" required>
+                <mat-option value="ROOT">Root</mat-option>
+                <mat-option value="INTERMEDIATE">Intermediate</mat-option>
+                <mat-option value="USER">User</mat-option>
+              </mat-select>
+            </mat-form-field></td>
+          </tr>
+        </table>
+      </form>
+      <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="create()" color="primary">Create</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
