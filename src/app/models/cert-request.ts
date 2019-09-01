@@ -1,5 +1,10 @@
 export interface CertRequest {
-  issuer: string;
-  subject: string;
+  issuerName: string;
+
+  commonName: string;
+  organizationUnit: string;
+  organization: string;
+  country: string;
+
   certificateType: string;
 }

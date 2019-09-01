@@ -3,6 +3,9 @@ export interface Certificate {
   serialNumber: string;
   issuer: string;
   subject: string;
-  active: boolean;
   ca: boolean;
+
+  revoked: boolean;
+  revokedAt: Date;
+  evokeReason: string;
 }

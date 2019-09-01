@@ -4,6 +4,8 @@ import {CertificateService} from '../../services/certificate.service';
 import {TreeItem} from '../../models/treeItem';
 import {ToastrService} from 'ngx-toastr';
 import { saveAs } from 'file-saver';
+import {Certificate} from '../../models/certificate';
+
 
 @Component({
   selector: 'app-certificate-tree',
@@ -17,14 +19,14 @@ export class CertificateTreeComponent implements OnInit {
   private data = new CertRequestImpl();
   public showSpinner: boolean;
 
-  /* subject data */
-  private countryNameC: string;
-  private organizationO: string;
-  private organizationalUnitOU: string;
-  private commonNameCN: string;
-
   private selectedNodeId: number;
   private selectedNodeName: string;
+  private selectedNodeCertificate: Certificate;
+
+  private country: string;
+  private organization: string;
+  private organizationalUnit: string;
+  private commonName: string;
 
   constructor(private certService: CertificateService,
               private toastrService: ToastrService) {
@@ -39,9 +41,11 @@ export class CertificateTreeComponent implements OnInit {
   }
 
   onTreeNodeSelect(event: any) {
-    this.selectedNodeId = event.node.data.id;
-    this.selectedNodeName = event.node.data.name;
-    this.data.issuer = this.selectedNodeName;
+    this.selectedNodeId           = event.node.data.id;
+    this.selectedNodeName         = event.node.data.name;
+    this.selectedNodeCertificate  = event.node.data.certificate;
+
+    this.data.issuerName          = event.node.data.certificate.subject;
   }
 
   fetchForest() {
@@ -58,17 +62,17 @@ export class CertificateTreeComponent implements OnInit {
   }
 
   create() {
-    if (this.data.issuer === undefined && this.data.certificateType !== 'ROOT') {
+    if (this.data.issuerName === undefined && this.data.certificateType !== 'ROOT') {
       this.toastrService.error('Only ROOT cert can be created with no issuer data.');
       return;
     }
 
     this.showSpinner = true;
-    this.data.subject =
-        'C=' + this.countryNameC + ', ' +
-        'O=' + this.organizationO + ', ' +
-        'OU=' + this.organizationalUnitOU + ', ' +
-        'CN=' + this.commonNameCN;
+
+    this.data.country = this.country;
+    this.data.organization = this.organization;
+    this.data.organizationUnit = this.organizationalUnit;
+    this.data.commonName = this.commonName;
 
     this.certService
       .create(this.data)
@@ -92,7 +96,7 @@ export class CertificateTreeComponent implements OnInit {
     }
 
     this.certService
-      .downloadZip(this.selectedNodeId)
+      .downloadZip(this.selectedNodeCertificate.serialNumber)
       .then(
         blob => { saveAs(blob, 'data.zip' );
     });

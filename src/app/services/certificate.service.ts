@@ -24,8 +24,8 @@ export class CertificateService {
     return this.http.get<TreeItem[]>(this.path + '/forest');
   }
 
-  downloadZip(id: any): any {
-    return this.http.get(this.path + `/${id}/zip`, {responseType: 'blob'}).toPromise();
+  downloadZip(serialNumber: any): any {
+    return this.http.get(this.path + `/${serialNumber}/zip`, {responseType: 'blob'}).toPromise();
   }
 
   create(certificateCreateRequest: CertRequest): Observable<Certificate> {
