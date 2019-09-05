@@ -5,6 +5,8 @@ import {TreeItem} from '../../models/treeItem';
 import {ToastrService} from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 import {Certificate} from '../../models/certificate';
+import {RevokeRequestImpl} from '../../models/Impl/revoke-request-impl';
+import {CertificateImpl} from '../../models/Impl/certificate-impl';
 
 
 @Component({
@@ -16,7 +18,9 @@ export class CertificateTreeComponent implements OnInit {
   private nodes: any;
   private options: any;
 
-  private data = new CertRequestImpl();
+  private certGenerateData = new CertRequestImpl();
+  private certRevokeData = new RevokeRequestImpl();
+
   public showSpinner: boolean;
 
   private selectedNodeId: number;
@@ -36,16 +40,23 @@ export class CertificateTreeComponent implements OnInit {
   ngOnInit() {
     this.nodes = [];
     this.options = {};
+    this.selectedNodeCertificate = new CertificateImpl();
 
     this.fetchForest();
   }
 
   onTreeNodeSelect(event: any) {
-    this.selectedNodeId           = event.node.data.id;
-    this.selectedNodeName         = event.node.data.name;
-    this.selectedNodeCertificate  = event.node.data.certificate;
 
-    this.data.issuerName          = event.node.data.certificate.subject;
+    // Collect all of certificate data from selected node
+    this.selectedNodeCertificate          = event.node.data.certificate;
+
+    // Collect data for certificate generation
+    this.selectedNodeId                   = event.node.data.id;
+    this.selectedNodeName                 = event.node.data.name;
+    this.certGenerateData.issuerName      = event.node.data.certificate.subject;
+
+    // Collect data for certificate revocation
+    this.certRevokeData.serialNumber      = event.node.data.certificate.serialNumber;
   }
 
   fetchForest() {
@@ -62,20 +73,20 @@ export class CertificateTreeComponent implements OnInit {
   }
 
   create() {
-    if (this.data.issuerName === undefined && this.data.certificateType !== 'ROOT') {
+    if (this.certGenerateData.issuerName === undefined && this.certGenerateData.certificateType !== 'ROOT') {
       this.toastrService.error('Only ROOT cert can be created with no issuer data.');
       return;
     }
 
     this.showSpinner = true;
 
-    this.data.country = this.country;
-    this.data.organization = this.organization;
-    this.data.organizationUnit = this.organizationalUnit;
-    this.data.commonName = this.commonName;
+    this.certGenerateData.country = this.country;
+    this.certGenerateData.organization = this.organization;
+    this.certGenerateData.organizationUnit = this.organizationalUnit;
+    this.certGenerateData.commonName = this.commonName;
 
     this.certService
-      .create(this.data)
+      .create(this.certGenerateData)
       .subscribe(
         () => {
           this.fetchForest();
@@ -100,6 +111,43 @@ export class CertificateTreeComponent implements OnInit {
       .then(
         blob => { saveAs(blob, 'data.zip' );
     });
+  }
+
+
+  revoke() {
+    this.showSpinner = true;
+
+    this.certService
+      .revoke(this.certRevokeData)
+      .subscribe(
+        () => {
+          this.fetchForest();
+          this.toastrService.success('Selected certificate has been revoked.');
+          this.showSpinner = false;
+        },
+        (err) => {
+          this.toastrService.error(err.error.apierror.message);
+          this.showSpinner = false;
+        }
+      );
+  }
+
+  unrevoke() {
+    this.showSpinner = true;
+
+    this.certService
+      .unrevoke(this.certRevokeData.serialNumber)
+      .subscribe(
+        () => {
+          this.fetchForest();
+          this.toastrService.success('Selected certificate has been un-revoked.');
+          this.showSpinner = false;
+        },
+        (err) => {
+          this.toastrService.error(err.error.apierror.message);
+          this.showSpinner = false;
+        }
+      );
   }
 
 }

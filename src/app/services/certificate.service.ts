@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Certificate} from '../models/certificate';
 import {CertRequest} from '../models/cert-request';
 import {TreeItem} from '../models/treeItem';
+import {RevokeRequest} from '../models/revoke-request';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,13 @@ export class CertificateService {
 
   create(certificateCreateRequest: CertRequest): Observable<Certificate> {
     return this.http.post<Certificate>(this.path, certificateCreateRequest);
+  }
+
+  revoke(certificateRevokeRequest: RevokeRequest): Observable<Certificate> {
+    return this.http.post<Certificate>(this.path + '/revoke', certificateRevokeRequest);
+  }
+
+  unrevoke(serialNumber: any): Observable<Certificate> {
+    return this.http.get<Certificate>(this.path +  `/${serialNumber}/unrevoke`);
   }
 }
