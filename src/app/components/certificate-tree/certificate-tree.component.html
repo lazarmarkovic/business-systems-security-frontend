@@ -18,17 +18,30 @@
             <table class="create-full-width">
               <tr>
                 <td>
-                  <mat-form-field class="create-full-width">
-                    <input matInput placeholder="Issuer" name="issuer" [(ngModel)]="certGenerateData.issuerName" disabled required>
-                  </mat-form-field>
+                  <h4>Certificate DM (new certificate's issuer):</h4>
+                  <label>{{selectedNodeCertificate.subject}} </label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Certificate Issue Date: </h4>
+                  <label>{{selectedNodeCertificate.issuedAt}} </label>
+                </td>
+                <td>
+                  <h4>Certificate Expiring Date: </h4>
+                  <label>{{selectedNodeCertificate.expiringAt}} </label>
+                </td>
+              </tr>
+              <tr>
+              <tr>
+                <td>
+                  <h4>New Certificate Data:</h4>
                 </td>
               </tr>
               <tr>
                 <td><mat-form-field class="create-full-width">
                   <input matInput placeholder="Country Name [C]" [(ngModel)]="country" name="countryNameC" required>
                 </mat-form-field></td>
-              </tr>
-              <tr>
                 <td><mat-form-field class="create-full-width">
                   <input matInput placeholder="Organization [O]" [(ngModel)]="organization" name="organizationO" required>
                 </mat-form-field></td>
@@ -37,8 +50,6 @@
                 <td><mat-form-field class="create-full-width">
                   <input matInput placeholder="Organizational Unit [OU]" [(ngModel)]="organizationalUnit" name="organizationalUnitOU" required>
                 </mat-form-field></td>
-              </tr>
-              <tr>
                 <td><mat-form-field class="create-full-width">
                   <input matInput placeholder="Common NameCN [CN]" [(ngModel)]="commonName" name="commonNameCN" required>
                 </mat-form-field></td>
@@ -69,9 +80,8 @@
             <table class="create-full-width">
               <tr>
                 <td>
-                  <mat-form-field class="create-full-width">
-                    <input matInput placeholder="Selected certificate DN" name="subject" [(ngModel)]="selectedNodeCertificate.subject" disabled required>
-                  </mat-form-field>
+                  <h4>Certificate DM:</h4>
+                  <label>{{selectedNodeCertificate.subject}} </label>
                 </td>
               </tr>
               <tr>

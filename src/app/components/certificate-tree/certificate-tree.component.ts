@@ -48,15 +48,15 @@ export class CertificateTreeComponent implements OnInit {
   onTreeNodeSelect(event: any) {
 
     // Collect all of certificate data from selected node
-    this.selectedNodeCertificate          = event.node.data.certificate;
+    this.selectedNodeCertificate             = event.node.data.certificate;
 
     // Collect data for certificate generation
-    this.selectedNodeId                   = event.node.data.id;
-    this.selectedNodeName                 = event.node.data.name;
-    this.certGenerateData.issuerName      = event.node.data.certificate.subject;
+    this.selectedNodeId                      = event.node.data.id;
+    this.selectedNodeName                    = event.node.data.name;
+    this.certGenerateData.issuerSerialNumber = event.node.data.certificate.serialNumber;
 
     // Collect data for certificate revocation
-    this.certRevokeData.serialNumber      = event.node.data.certificate.serialNumber;
+    this.certRevokeData.serialNumber         = event.node.data.certificate.serialNumber;
   }
 
   fetchForest() {
@@ -73,8 +73,13 @@ export class CertificateTreeComponent implements OnInit {
   }
 
   create() {
-    if (this.certGenerateData.issuerName === undefined && this.certGenerateData.certificateType !== 'ROOT') {
+    if (this.certGenerateData.issuerSerialNumber === undefined && this.certGenerateData.certificateType !== 'ROOT') {
       this.toastrService.error('Only ROOT cert can be created with no issuer data.');
+      return;
+    }
+
+    if (this.selectedNodeCertificate.type === 'ROOT' && this.certGenerateData.certificateType === 'USER') {
+      this.toastrService.error('There must be intermediate certificate between root and user certificate.');
       return;
     }
 

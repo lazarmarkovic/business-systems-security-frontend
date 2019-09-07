@@ -6,9 +6,12 @@ export class CertificateImpl implements Certificate {
   issuer: string;
   subject: string;
   ca: boolean;
+  type: string;
+  issuedAt: string;
+  expiringAt: string;
 
   revoked: boolean;
-  revokedAt: Date;
+  revokedAt: string;
   evokeReason: string;
   constructor() {}
 }
