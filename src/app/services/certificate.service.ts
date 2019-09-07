@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment.prod';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Certificate} from '../models/certificate';
-import {CertRequest} from '../models/cert-request';
+import {Certificate} from '../models/certificate/certificate';
+import {CertRequest} from '../models/certificate/cert-request';
 import {TreeItem} from '../models/treeItem';
-import {RevokeRequest} from '../models/revoke-request';
+import {RevokeRequest} from '../models/certificate/revoke-request';
 
 @Injectable({
   providedIn: 'root'

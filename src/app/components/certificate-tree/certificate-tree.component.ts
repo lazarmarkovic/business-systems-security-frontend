@@ -4,7 +4,7 @@ import {CertificateService} from '../../services/certificate.service';
 import {TreeItem} from '../../models/treeItem';
 import {ToastrService} from 'ngx-toastr';
 import { saveAs } from 'file-saver';
-import {Certificate} from '../../models/certificate';
+import {Certificate} from '../../models/certificate/certificate';
 import {RevokeRequestImpl} from '../../models/Impl/revoke-request-impl';
 import {CertificateImpl} from '../../models/Impl/certificate-impl';
 

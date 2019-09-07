@@ -1,4 +1,5 @@
-import {Authority} from './authority';
+import {Authority} from '../authority';
+import {Permission} from '../permission';
 
 export interface User {
   id: number;
@@ -6,4 +7,5 @@ export interface User {
   firstName: string;
   lastName: string;
   userAuthorities: Authority[];
+  userPermissions: Permission[];
 }

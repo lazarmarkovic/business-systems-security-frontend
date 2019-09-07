@@ -20,6 +20,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptorService} from './app/security/token-interceptor.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CanActivateAuthGuard} from './app/security/can-activate-auth.guard';
+import { IamComponent } from './app/components/iam/iam.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {CanActivateAuthGuard} from './app/security/can-activate-auth.guard';
     CertificateTreeComponent,
     NotFoundPageComponent,
     LoginComponent,
+    IamComponent,
   ],
   imports: [
     BrowserModule,

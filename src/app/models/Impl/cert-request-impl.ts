@@ -1,4 +1,4 @@
-import {CertRequest} from '../cert-request';
+import {CertRequest} from '../certificate/cert-request';
 
 export class CertRequestImpl implements CertRequest {
   issuerSerialNumber: string;

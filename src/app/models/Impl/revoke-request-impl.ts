@@ -1,4 +1,4 @@
-import {RevokeRequest} from '../revoke-request';
+import {RevokeRequest} from '../certificate/revoke-request';
 
 export class RevokeRequestImpl implements RevokeRequest {
 

@@ -1,4 +1,4 @@
-import {Certificate} from '../certificate';
+import {Certificate} from '../certificate/certificate';
 
 export class CertificateImpl implements Certificate {
   id: number;

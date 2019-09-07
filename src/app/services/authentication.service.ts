@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
 
 import { UserService } from './user.service';
-import { LocalStorageUser } from '../models/local-storage-user';
-import { LoginResponse } from '../models/login-response';
+import { LocalStorageUser } from '../models/user/local-storage-user';
+import { LoginResponse } from '../models/user/login-response';
 
 @Injectable({
   providedIn: 'root'
