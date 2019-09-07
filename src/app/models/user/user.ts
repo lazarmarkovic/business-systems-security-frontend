@@ -8,6 +8,6 @@ export interface User {
   lastName: string;
   userAuthorities: Authority[];
   userPermissions: Permission[];
-
+  suspended: boolean;
 
 }

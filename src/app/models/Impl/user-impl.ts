@@ -9,6 +9,7 @@ export class UserImpl implements User {
   lastName: string;
   userAuthorities: Authority[];
   userPermissions: Permission[];
+  suspended: boolean;
 
   constructor() {}
 }
