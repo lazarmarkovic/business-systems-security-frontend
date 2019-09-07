@@ -1,12 +1,23 @@
 <div class="app-container">
   <mat-toolbar class="toolbar" style="z-index:9999">
-    <a mat-button routerLink="/">PKI</a>
 
     <span class="example-fill-remaining-space"></span>
 
     <div style="margin-right: 0.5rem">
       <a mat-button routerLink="/tree"
-      >Tree view</a
+      >PKI Tree View</a
+      >
+    </div>
+
+    <div style="margin-right: 0.5rem">
+      <a mat-button routerLink="/iam"
+      >IAM Panel View</a
+      >
+    </div>
+
+    <div style="margin-right: 0.5rem">
+      <a mat-button routerLink="/my-settings"
+      >My Settings Panel View</a
       >
     </div>
 
@@ -15,4 +26,5 @@
     <a mat-button *ngIf="loggedIn()" (click)="logout()">Log Out</a>
   </mat-toolbar>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</div>

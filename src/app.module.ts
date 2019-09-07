@@ -21,6 +21,7 @@ import {TokenInterceptorService} from './app/security/token-interceptor.service'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CanActivateAuthGuard} from './app/security/can-activate-auth.guard';
 import { IamComponent } from './app/components/iam/iam.component';
+import { MySettingsComponent } from './app/components/my-settings/my-settings.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { IamComponent } from './app/components/iam/iam.component';
     NotFoundPageComponent,
     LoginComponent,
     IamComponent,
+    MySettingsComponent,
   ],
   imports: [
     BrowserModule,
