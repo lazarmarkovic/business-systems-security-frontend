@@ -1,3 +1,50 @@
-<p>
-  iam works!
-</p>
+<mat-tab-group>
+  <mat-tab label="View & Edit users">
+    <mat-card class="create-cert-card">
+      <mat-card-content>
+        <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Register New User">
+    <mat-card class="register-user-card">
+      <mat-card-content>
+        <form class="register-form">
+          <table class="create-full-width">
+            <tr>
+              <td><mat-form-field class="create-full-width">
+                <textarea matInput placeholder="First Name" [(ngModel)]="userRegisterRequest.firstName" name="firstName" required></textarea>
+              </mat-form-field></td>
+            </tr>
+            <tr>
+              <td><mat-form-field class="create-full-width">
+                <textarea matInput placeholder="Last Name" [(ngModel)]="userRegisterRequest.lastName" name="lastName" required></textarea>
+              </mat-form-field></td>
+            </tr>
+            <tr>
+              <td><mat-form-field class="create-full-width">
+                <textarea matInput placeholder="Email" [(ngModel)]="userRegisterRequest.email" email="true" name="lastName" required></textarea>
+              </mat-form-field></td>
+            </tr>
+            <tr>
+              <td><mat-form-field class="create-full-width">
+                <textarea matInput placeholder="Password" [(ngModel)]="userRegisterRequest.password" type="password" name="password" required></textarea>
+              </mat-form-field></td>
+            </tr>
+            <tr>
+              <td>
+
+              </td>
+            </tr>
+          </table>
+        </form>
+        <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="registerNewUser()" color="primary">Register</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
