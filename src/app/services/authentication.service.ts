@@ -17,6 +17,8 @@ import { LoginResponse } from '../models/user/login-response';
 export class AuthenticationService {
   private readonly loginPath = environment.baseUrl + '/api/auth/login';
 
+  public localUser = null;
+
   constructor(
     private http: HttpClient,
     private userService: UserService
@@ -50,7 +52,8 @@ export class AuthenticationService {
                   const lStorage: LocalStorageUser = this.getCurrentUser();
                   lStorage.user = userResponse;
                   localStorage.setItem('currentUser', JSON.stringify(lStorage));
-                  return true;
+                  this.localUser = userResponse;
+                  return userResponse;
                 }));
           } else {
             return EMPTY;

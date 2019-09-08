@@ -3,13 +3,34 @@
 
     <span class="example-fill-remaining-space"></span>
 
-    <div style="margin-right: 0.5rem">
+    <div style="margin-right: 0.5rem"
+      *ngIf="authService.localUser && userService.hasAnyPermissions(
+        authService.localUser,
+      [
+        userService.ISSUE_ROOT_CERTIFICATE,
+        userService.ISSUE_INTERMEDIATE_CERTIFICATE,
+        userService.ISSUE_USER_CERTIFICATE,
+        userService.REVOKE_ROOT_CERTIFICATE,
+        userService.REVOKE_INTERMEDIATE_CERTIFICATE,
+        userService.REVOKE_USER_CERTIFICATE,
+        userService.DISTRIBUTE_ROOT_CERTIFICATE,
+        userService.DISTRIBUTE_INTERMEDIATE_CERTIFICATE,
+        userService.DISTRIBUTE_USER_CERTIFICATE
+      ])"
+    >
       <a mat-button routerLink="/tree"
       >PKI Tree View</a
       >
     </div>
 
-    <div style="margin-right: 0.5rem">
+    <div style="margin-right: 0.5rem"
+       *ngIf="authService.localUser && userService.hasAnyPermissions(
+        authService.localUser,
+      [
+        userService.EDIT_USER_PERMISSIONS,
+        userService.REGISTER_USERS
+      ])"
+    >
       <a mat-button routerLink="/iam"
       >IAM Panel View</a
       >
@@ -24,6 +45,10 @@
     <a mat-button *ngIf="!loggedIn()" routerLink="/login">Log In</a>
 
     <a mat-button *ngIf="loggedIn()" (click)="logout()">Log Out</a>
+
+    <div style="margin-left: 5em">
+      <p>Logged in as: {{authService.localUser != null ? authService.localUser.firstName : '--'}}</p>
+    </div>
   </mat-toolbar>
 
   <router-outlet></router-outlet>

@@ -8,6 +8,7 @@ import {UserRegisterRequest} from '../../models/user/user-register-request';
 import {UserService} from '../../services/user.service';
 import {typeIsOrHasBaseType} from 'tslint/lib/language/typeUtils';
 import {UserPermissionsUpdateRequestImpl} from '../../models/Impl/user-permissions-update-request-impl';
+import {AuthenticationService} from '../../services/authentication.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,20 +18,20 @@ import {UserPermissionsUpdateRequestImpl} from '../../models/Impl/user-permissio
 })
 export class IamComponent implements OnInit {
 
+  public user = this.authService.getCurrentUser();
   public showSpinner: boolean;
   private allPermissions = [
     { id: 1, name: 'register_users' },
     { id: 2, name: 'edit_user_permissions' },
-    { id: 3, name: 'suspend_user' },
-    { id: 4, name: 'issue_root_certificate' },
-    { id: 5, name: 'issue_intermediate_certificate' },
-    { id: 6, name: 'issue_user_certificate' },
-    { id: 7, name: 'revoke_root_certificate' },
-    { id: 8, name: 'revoke_intermediate_certificate' },
-    { id: 9, name: 'revoke_user_certificate' },
-    { id: 10, name: 'distribute_root_certificate' },
-    { id: 11, name: 'distribute_intermediate_certificate' },
-    { id: 12, name: 'distribute_user_certificate' }
+    { id: 3, name: 'issue_root_certificate' },
+    { id: 4, name: 'issue_intermediate_certificate' },
+    { id: 5, name: 'issue_user_certificate' },
+    { id: 6, name: 'revoke_root_certificate' },
+    { id: 7, name: 'revoke_intermediate_certificate' },
+    { id: 8, name: 'revoke_user_certificate' },
+    { id: 9, name: 'distribute_root_certificate' },
+    { id: 10, name: 'distribute_intermediate_certificate' },
+    { id: 11, name: 'distribute_user_certificate' }
   ];
   private dropdownSettings = {
     singleSelection: false,
@@ -56,9 +57,19 @@ export class IamComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private authService: AuthenticationService) {
   }
 
+
+  isEmpty(obj) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   ngOnInit() {
     this.showSpinner = false;
@@ -86,12 +97,13 @@ export class IamComponent implements OnInit {
       .register(this.userRegisterRequest)
       .subscribe(
         () => {
-          this.toastrService.success('New user is created.');
           this.showSpinner = false;
+          this.toastrService.success('New user is created.');
+          this.getAllUsers();
         },
         (err) => {
-          this.toastrService.error(err.error.apierror.message);
           this.showSpinner = false;
+          this.toastrService.error(err.error.apierror.message);
         }
       );
   }
@@ -127,9 +139,13 @@ export class IamComponent implements OnInit {
   }
 
   editUser() {
+    if (this.isEmpty(this.selectedUser)) {
+      this.toastrService.warning('No user selected.');
+      return;
+    }
     const userPermissionsUpdateRequest = new UserPermissionsUpdateRequestImpl();
     userPermissionsUpdateRequest.permissions = [];
-    // tslint:disable-next-line:prefer-for-of
+    // tslint:disable-next-line:prefer-for-ofnew
     for (let i = 0; i < this.selectedItemsEdit.length; i++) {
       userPermissionsUpdateRequest.permissions.push(this.selectedItemsEdit[i].id);
     }
@@ -139,8 +155,9 @@ export class IamComponent implements OnInit {
       .updatePermissions(this.selectedUser.id, userPermissionsUpdateRequest)
       .subscribe(
         () => {
-          this.toastrService.success('User is updated successfully.');
           this.showSpinner = false;
+          this.getAllUsers();
+          this.toastrService.success('User is updated successfully.');
         },
         (err) => {
           this.toastrService.error(err.error.apierror.message);

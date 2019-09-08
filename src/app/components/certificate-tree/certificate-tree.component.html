@@ -1,4 +1,8 @@
-<button mat-raised-button (click)="startDownload()" color="primary">Download data of selected certificate</button>
+<button mat-raised-button (click)="startDownload()" color="primary"
+        *ngIf="(userService.hasAnyPermissions(user.user,[userService.DISTRIBUTE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.DISTRIBUTE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.DISTRIBUTE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')"
+>Download data of selected certificate</button>
 <div class="card-container">
   <mat-card class="tree-card">
     <mat-card-header>
@@ -39,28 +43,49 @@
                 </td>
               </tr>
               <tr>
-                <td><mat-form-field class="create-full-width">
+                <td><mat-form-field class="create-full-width"
+                                    *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
                   <input matInput placeholder="Country Name [C]" [(ngModel)]="country" name="countryNameC" required>
                 </mat-form-field></td>
-                <td><mat-form-field class="create-full-width">
+                <td><mat-form-field class="create-full-width"
+                                    *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
                   <input matInput placeholder="Organization [O]" [(ngModel)]="organization" name="organizationO" required>
                 </mat-form-field></td>
               </tr>
               <tr>
-                <td><mat-form-field class="create-full-width">
+                <td><mat-form-field class="create-full-width"
+                                    *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
                   <input matInput placeholder="Organizational Unit [OU]" [(ngModel)]="organizationalUnit" name="organizationalUnitOU" required>
                 </mat-form-field></td>
-                <td><mat-form-field class="create-full-width">
+                <td><mat-form-field class="create-full-width"
+                                    *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
                   <input matInput placeholder="Common NameCN [CN]" [(ngModel)]="commonName" name="commonNameCN" required>
                 </mat-form-field></td>
               </tr>
               <tr>
-                <td><mat-form-field class="create-full-width">
+                <td><mat-form-field class="create-full-width"
+                                    *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
                   <mat-label>Select certificate type</mat-label>
                   <mat-select [(value)]="certGenerateData.certificateType" required>
-                    <mat-option value="ROOT">Root</mat-option>
-                    <mat-option value="INTERMEDIATE">Intermediate</mat-option>
-                    <mat-option value="USER">User</mat-option>
+                    <mat-option value="ROOT"
+                                *ngIf="userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE])"
+                    >Root</mat-option>
+                    <mat-option value="INTERMEDIATE"
+                                *ngIf="userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE])"
+                    >Intermediate</mat-option>
+                    <mat-option value="USER"
+                                *ngIf="userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE])"
+                    >User</mat-option>
                   </mat-select>
                 </mat-form-field></td>
               </tr>
@@ -69,11 +94,18 @@
           <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button (click)="create()" color="primary">Create</button>
+          <button mat-raised-button (click)="create()" color="primary"
+                  *ngIf="(userService.hasAnyPermissions(user.user,[userService.ISSUE_ROOT_CERTIFICATE])) ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_INTERMEDIATE_CERTIFICATE])) ||
+(userService.hasAnyPermissions(user.user,[userService.ISSUE_USER_CERTIFICATE]))"
+          >Create</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>
-    <mat-tab label="Revoke">
+    <mat-tab label="Revoke"
+             *ngIf="(userService.hasAnyPermissions(user.user,[userService.REVOKE_ROOT_CERTIFICATE]) && this.selectedNodeCertificate.type === 'ROOT') ||
+(userService.hasAnyPermissions(user.user,[userService.REVOKE_INTERMEDIATE_CERTIFICATE]) && this.selectedNodeCertificate.type === 'INTERMEDIATE') ||
+(userService.hasAnyPermissions(user.user,[userService.REVOKE_USER_CERTIFICATE]) && this.selectedNodeCertificate.type === 'USER')">
       <mat-card class="create-cert-card">
         <mat-card-content>
           <form class="login-form">
@@ -82,6 +114,12 @@
                 <td>
                   <h4>Certificate DM:</h4>
                   <label>{{selectedNodeCertificate.subject}} </label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>Revoke date</h5>
+                  <p>{{selectedNodeCertificate.revokedAt}}</p>
                 </td>
               </tr>
               <tr>
@@ -95,8 +133,12 @@
           <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button (click)="revoke()" color="primary">Revoke</button>
-          <button mat-raised-button (click)="unrevoke()" color="primary">Un-Revoke</button>
+          <button mat-raised-button (click)="revoke()" color="primary"
+                  *ngIf="!selectedNodeCertificate.revoked"
+          >Revoke</button>
+          <button mat-raised-button (click)="unrevoke()" color="primary"
+                  *ngIf="selectedNodeCertificate.revoked"
+          >Un-Revoke</button>
         </mat-card-actions>
       </mat-card>
     </mat-tab>

@@ -12,6 +12,6 @@ export class CertificateImpl implements Certificate {
 
   revoked: boolean;
   revokedAt: string;
-  evokeReason: string;
+  revokeReason: string;
   constructor() {}
 }

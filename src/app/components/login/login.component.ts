@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 
 import { AuthenticationService } from '../../services/authentication.service';
+import {UserService} from '../../services/user.service';
+import {User} from '../../models/user/user';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private userService: UserService
   ) {
     this.wrongUsernameOrPass = false;
   }
@@ -33,10 +36,34 @@ export class LoginComponent implements OnInit {
     this.authenticationService
       .login(this.loginCredentials.email, this.loginCredentials.password)
       .subscribe(
-        (loggedIn: boolean) => {
+        (userResponse: User) => {
           this.showSpinner = false;
-          if (loggedIn) {
-            this.router.navigate(['/']);
+          if (userResponse) {
+            if (this.userService.hasAnyPermissions(
+              userResponse,
+              [
+                this.userService.ISSUE_ROOT_CERTIFICATE,
+                this.userService.ISSUE_INTERMEDIATE_CERTIFICATE,
+                this.userService.ISSUE_USER_CERTIFICATE,
+                this.userService.REVOKE_ROOT_CERTIFICATE,
+                this.userService.REVOKE_INTERMEDIATE_CERTIFICATE,
+                this.userService.REVOKE_USER_CERTIFICATE,
+                this.userService.DISTRIBUTE_ROOT_CERTIFICATE,
+                this.userService.DISTRIBUTE_INTERMEDIATE_CERTIFICATE,
+                this.userService.DISTRIBUTE_USER_CERTIFICATE
+              ])) {
+              this.router.navigate(['/tree']);
+            } else if (this.userService.hasAnyPermissions(
+              userResponse,
+              [
+                this.userService.EDIT_USER_PERMISSIONS,
+                this.userService.REGISTER_USERS,
+              ])) {
+              this.router.navigate(['/iam']);
+            } else {
+              this.router.navigate(['/my-settings']);
+            }
+
           }
         },
         err => {

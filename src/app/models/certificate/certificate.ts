@@ -11,5 +11,5 @@ export interface Certificate {
 
   revoked: boolean;
   revokedAt: string;
-  evokeReason: string;
+  revokeReason: string;
 }

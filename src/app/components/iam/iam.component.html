@@ -1,6 +1,7 @@
 <div class="full-parent">
   <mat-tab-group class="full-parent">
-    <mat-tab  label="View & Edit users">
+    <mat-tab  label="View & Edit users"
+              *ngIf="userService.hasAnyPermissions(user.user,[userService.EDIT_USER_PERMISSIONS])">
       <div class="card-container">
         <mat-card class="user-table-card">
           <mat-card-header>
@@ -67,13 +68,14 @@
         </mat-card>
       </div>
     </mat-tab>
-    <mat-tab label="Register New User" class="full-parent">
+    <mat-tab label="Register New User" class="full-parent"
+             *ngIf="userService.hasAnyPermissions(user.user,[userService.REGISTER_USERS])">
       <mat-card class="register-user-card">
-        <mat-card-content>
+        <mat-card-content (keyup.enter)="registerNewUser()">
             <table class="create-full-width">
               <tr>
                 <td><mat-form-field class="create-full-width">
-                  <input matInput placeholder="First Name" [(ngModel)]="userRegisterRequest.firstName" name="firstName" required>
+                  <input matInput placeholder="First Name" [(ngModel)]="userRegisterRequest.firstName" name="firstName" required autofocus>
                 </mat-form-field></td>
               </tr>
               <tr>

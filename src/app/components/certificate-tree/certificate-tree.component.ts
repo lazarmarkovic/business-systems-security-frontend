@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import {Certificate} from '../../models/certificate/certificate';
 import {RevokeRequestImpl} from '../../models/Impl/revoke-request-impl';
 import {CertificateImpl} from '../../models/Impl/certificate-impl';
+import {AuthenticationService} from '../../services/authentication.service';
+import {UserService} from '../../services/user.service';
 
 
 @Component({
@@ -15,6 +17,9 @@ import {CertificateImpl} from '../../models/Impl/certificate-impl';
   styleUrls: ['./certificate-tree.component.css']
 })
 export class CertificateTreeComponent implements OnInit {
+  public user = this.authService.getCurrentUser();
+
+
   private nodes: any;
   private options: any;
 
@@ -33,7 +38,9 @@ export class CertificateTreeComponent implements OnInit {
   private commonName: string;
 
   constructor(private certService: CertificateService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private authService: AuthenticationService,
+              private userService: UserService) {
     this.nodes = null;
   }
 
@@ -57,6 +64,7 @@ export class CertificateTreeComponent implements OnInit {
 
     // Collect data for certificate revocation
     this.certRevokeData.serialNumber         = event.node.data.certificate.serialNumber;
+    this.certRevokeData.reason               = event.node.data.certificate.revokeReason;
   }
 
   fetchForest() {

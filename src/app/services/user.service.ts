@@ -12,10 +12,60 @@ import {UserPermissionsUpdateRequest} from '../models/user/user-permissions-upda
 })
 
 export class UserService {
-  private readonly path = environment.baseUrl + '/api/users';
 
   constructor(private http: HttpClient) {
   }
+
+  /* All user permissions */
+  public REGISTER_USERS = 1;
+  public EDIT_USER_PERMISSIONS = 2;
+  public ISSUE_ROOT_CERTIFICATE = 3;
+  public ISSUE_INTERMEDIATE_CERTIFICATE = 4;
+  public ISSUE_USER_CERTIFICATE = 5;
+  public REVOKE_ROOT_CERTIFICATE = 6;
+  public REVOKE_INTERMEDIATE_CERTIFICATE = 7;
+  public REVOKE_USER_CERTIFICATE = 8;
+  public DISTRIBUTE_ROOT_CERTIFICATE = 9;
+  public DISTRIBUTE_INTERMEDIATE_CERTIFICATE = 10;
+  public DISTRIBUTE_USER_CERTIFICATE = 11;
+
+
+  private readonly path = environment.baseUrl + '/api/users';
+
+  hasAllPermissions(user: User, permissionIDs: number[]): boolean {
+    const upl = user.userPermissions.length;
+    const pl = permissionIDs.length;
+
+    let assume1 = true;
+    for (let i = 0; i < upl; i++) {
+      let assume = false;
+      for (let j = 0; j < pl; j++) {
+        if (user.userPermissions[i].id === permissionIDs[j])  {
+          assume = true;
+        }
+      }
+      if (assume === false) {
+        assume1 = false;
+        break;
+      }
+    }
+    return assume1;
+  }
+
+  hasAnyPermissions(user: User, permissionIDs: number[]): boolean {
+    const upl = user.userPermissions.length;
+    const pl = permissionIDs.length;
+
+    for (let i = 0; i < upl; i++) {
+      for (let j = 0; j < pl; j++) {
+        if (user.userPermissions[i].id === permissionIDs[j])  {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 
   get(id: any): Observable<User> {
     return this.http.get<User>(this.path + `/${id}`);
