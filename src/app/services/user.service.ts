@@ -6,6 +6,8 @@ import {environment} from '../../environments/environment.prod';
 import { User} from '../models/user/user';
 import {UserRegisterRequest} from '../models/user/user-register-request';
 import {UserPermissionsUpdateRequest} from '../models/user/user-permissions-update-request';
+import {UserPasswordResetRequest} from '../models/user/user-password-reset-request';
+import {UserUpdateRequest} from '../models/user/user-update-request';
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +83,13 @@ export class UserService {
 
   updatePermissions(id: number, userPermissionsUpdateRequest: UserPermissionsUpdateRequest): Observable<User> {
     return this.http.put<User>(this.path + `/${id}/permissions`, userPermissionsUpdateRequest);
+  }
+
+  changePassword(id: number, userPassData: UserPasswordResetRequest): Observable<User> {
+    return this.http.put<User>(this.path + `/${id}/password`, userPassData);
+  }
+
+  updateInfo(id: number, userUpdateInfoData: UserUpdateRequest): Observable<User> {
+    return this.http.put<User>(this.path + `/${id}`, userUpdateInfoData);
   }
 }

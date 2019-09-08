@@ -47,7 +47,7 @@
     <a mat-button *ngIf="loggedIn()" (click)="logout()">Log Out</a>
 
     <div style="margin-left: 5em">
-      <p>Logged in as: {{authService.localUser != null ? authService.localUser.firstName : '--'}}</p>
+      <p>Logged in as: {{authService.localUser != null ? authService.localUser.email : '--'}}</p>
     </div>
   </mat-toolbar>
 
