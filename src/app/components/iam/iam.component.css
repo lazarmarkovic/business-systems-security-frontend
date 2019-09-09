@@ -1,0 +1,53 @@
+.multi-select {
+  margin-bottom: 10em;
+}
+
+.full-parent {
+  /* needed styles below */
+  /*display: flex;
+  justify-content: left;*/
+  width: 100%;
+  height: 100%;
+}
+
+.permission-selector {
+  width: 20em;
+  padding: 2em;
+  margin: 2em;
+}
+
+
+.register-user-card {
+  padding: 2em;
+  margin: 2em;
+  height: 100%;
+}
+
+
+.user-table-card {
+  width: 40em;
+}
+
+.table-itself {
+  width: 100%
+}
+
+.create-cert-card {
+  width: 40em;
+}
+
+.create-full-width {
+  width: 100%;
+}
+
+
+.card-container {
+  /* needed styles below */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.new-height {
+  height: 30em;
+}

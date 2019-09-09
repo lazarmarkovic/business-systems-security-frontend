@@ -1,0 +1,118 @@
+<div class="full-parent">
+  <mat-tab-group class="full-parent">
+    <mat-tab  label="View & Edit users"
+              *ngIf="userService.hasAnyPermissions(user.user,[userService.EDIT_USER_PERMISSIONS])">
+      <div class="card-container">
+        <mat-card class="user-table-card">
+          <mat-card-header>
+            <mat-card-title>All Users View</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="user-table-card">
+            <table mat-table [dataSource]="userDataSource" class="mat-elevation-z8 table-itself">
+              <!-- Position Column -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName + ' ' + element.lastName}} </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="suspended">
+                <th mat-header-cell *matHeaderCellDef> Suspended </th>
+                <td mat-cell *matCellDef="let element"> {{ element.suspended === true ? "YES" : "NOT"}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRow(row)"></tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="create-cert-card new-height">
+          <mat-card-content>
+            <table class="create-full-width">
+              <tr>
+                <td>
+                  <h3>Permissions</h3>
+                  <ng-multiselect-dropdown
+                    class="permission-selector"
+                    [placeholder]="'Select Permissions'"
+                    [data]="allPermissions"
+                    [(ngModel)]="selectedItemsEdit"
+                    [settings]="dropdownSettings"
+                  >
+                  </ng-multiselect-dropdown>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-slide-toggle  [(ngModel)]="userSuspended">User is suspended</mat-slide-toggle>
+                </td>
+              </tr>
+            </table>
+            <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="editUser()" color="primary">Update User Settings</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Register New User" class="full-parent"
+             *ngIf="userService.hasAnyPermissions(user.user,[userService.REGISTER_USERS])">
+      <mat-card class="register-user-card">
+        <mat-card-content (keyup.enter)="registerNewUser()">
+            <table class="create-full-width">
+              <tr>
+                <td><mat-form-field class="create-full-width">
+                  <input matInput placeholder="First Name" [(ngModel)]="userRegisterRequest.firstName" name="firstName" required autofocus>
+                </mat-form-field></td>
+              </tr>
+              <tr>
+                <td><mat-form-field class="create-full-width">
+                  <input matInput placeholder="Last Name" [(ngModel)]="userRegisterRequest.lastName" name="lastName" required>
+                </mat-form-field></td>
+              </tr>
+              <tr>
+                <td><mat-form-field class="create-full-width">
+                  <input matInput placeholder="Email" [(ngModel)]="userRegisterRequest.email" type="email" name="lastName" required>
+                </mat-form-field></td>
+              </tr>
+              <tr>
+                <td><mat-form-field class="create-full-width">
+                  <input matInput placeholder="Password" [(ngModel)]="userRegisterRequest.password" type="password" name="password" required>
+                </mat-form-field></td>
+              </tr>
+              <tr>
+                <td>
+                  <h3>Permissions</h3>
+                  <ng-multiselect-dropdown
+                    class="permission-selector"
+                    [placeholder]="'Select Permissions'"
+                    [data]="allPermissions"
+                    [(ngModel)]="selectedItemsRegistration"
+                    [settings]="dropdownSettings"
+                  >
+                  </ng-multiselect-dropdown>
+                </td>
+              </tr>
+            </table>
+          <mat-spinner [diameter]="40" [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button (click)="registerNewUser()" color="primary">Register</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,5 +1,5 @@
 export interface CertRequest {
-  issuerName: string;
+  issuerSerialNumber: string;
 
   commonName: string;
   organizationUnit: string;
